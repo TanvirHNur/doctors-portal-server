@@ -22,8 +22,11 @@ async function run(){
         const database = client.db('doctors_portal');
         const appointmentsCollection = database.collection('appointments');
 
-        app.post('appointments', async (req,res) => {
-          const 
+        app.post('/appointments', async (req,res) => {
+          const appointment = req.body;
+          const result = await appointmentsCollection.insertOne(appointment);
+          console.log(result)
+          res.send(result)
         })
         
     }
