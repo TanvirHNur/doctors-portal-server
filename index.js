@@ -22,11 +22,11 @@ async function run(){
         await client.connect();
         const database = client.db('doctors_portal');
         const appointmentsCollection = database.collection('appointments');
+        const usersCollection = database.collection('users')
 
       app.get('/appointments', async (req,res) => {
         const email= req.query.email;
         const date=new Date(req.query.date).toLocaleDateString();
-        console.log(date)
         const query = {email: email,date}
         const cursor = appointmentsCollection.find(query);
         const appointments = await cursor.toArray();
@@ -37,6 +37,12 @@ async function run(){
           const appointment = req.body;
           const result = await appointmentsCollection.insertOne(appointment);
           // console.log(result)
+          res.send(result)
+        });
+        app.post('/users', async (req,res) => {
+          const user = req.body;
+          const result = await usersCollection.insertOne(user);
+          console.log(result)
           res.send(result)
         })
         
